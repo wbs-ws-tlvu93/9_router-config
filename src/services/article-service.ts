@@ -1,0 +1,1 @@
+import articleRepo from '@repos/';
