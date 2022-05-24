@@ -1,49 +1,49 @@
 /******************************************************************************
- *                          Fetch and display users
+ *                          Fetch and display articles
  ******************************************************************************/
 
 displayArticles();
 
 function displayArticles() {
-  httpGet('/api/users/all')
+  httpGet('/api/articles/all')
     .then((response) => response.json())
     .then((response) => {
-      var allUsers = response.users;
+      var allarticles = response.articles;
       // Empty the anchor
-      var allUsersAnchor = document.getElementById('all-users-anchor');
-      allUsersAnchor.innerHTML = '';
-      // Append users to anchor
-      allUsers.forEach((user) => {
-        allUsersAnchor.innerHTML += getUserDisplayEle(user);
+      var allarticlesAnchor = document.getElementById('all-articles-anchor');
+      allarticlesAnchor.innerHTML = '';
+      // Append articles to anchor
+      allarticles.forEach((article) => {
+        allarticlesAnchor.innerHTML += getArticleDisplayEle(article);
       });
     });
 }
 
-function getUserDisplayEle(user) {
-  return `<div class="user-display-ele">
+function getArticleDisplayEle(article) {
+  return `<div class="article-display-ele">
 
         <div class="normal-view">
-            <div>Name: ${user.name}</div>
-            <div>Email: ${user.email}</div>
-            <button class="edit-user-btn" data-user-id="${user.id}">
+            <div>Name: ${article.name}</div>
+            <div>Email: ${article.email}</div>
+            <button class="edit-article-btn" data-article-id="${article.id}">
                 Edit
             </button>
-            <button class="delete-user-btn" data-user-id="${user.id}">
+            <button class="delete-article-btn" data-article-id="${article.id}">
                 Delete
             </button>
         </div>
         
         <div class="edit-view">
             <div>
-                Name: <input class="name-edit-input" value="${user.name}">
+                Name: <input class="name-edit-input" value="${article.name}">
             </div>
             <div>
-                Email: <input class="email-edit-input" value="${user.email}">
+                Email: <input class="email-edit-input" value="${article.email}">
             </div>
-            <button class="submit-edit-btn" data-user-id="${user.id}">
+            <button class="submit-edit-btn" data-article-id="${article.id}">
                 Submit
             </button>
-            <button class="cancel-edit-btn" data-user-id="${user.id}">
+            <button class="cancel-edit-btn" data-article-id="${article.id}">
                 Cancel
             </button>
         </div>
@@ -51,7 +51,7 @@ function getUserDisplayEle(user) {
 }
 
 /******************************************************************************
- *                        Add, Edit, and Delete Users
+ *                        Add, Edit, and Delete articles
  ******************************************************************************/
 
 document.addEventListener(
@@ -59,69 +59,69 @@ document.addEventListener(
   function (event) {
     event.preventDefault();
     var ele = event.target;
-    if (ele.matches('#add-user-btn')) {
-      addUser();
-    } else if (ele.matches('.edit-user-btn')) {
+    if (ele.matches('#add-article-btn')) {
+      addArticle();
+    } else if (ele.matches('.edit-article-btn')) {
       showEditView(ele.parentNode.parentNode);
     } else if (ele.matches('.cancel-edit-btn')) {
       cancelEdit(ele.parentNode.parentNode);
     } else if (ele.matches('.submit-edit-btn')) {
       submitEdit(ele);
-    } else if (ele.matches('.delete-user-btn')) {
-      deleteUser(ele);
+    } else if (ele.matches('.delete-article-btn')) {
+      deleteArticle(ele);
     }
   },
   false
 );
 
-function addUser() {
+function addArticle() {
   var nameInput = document.getElementById('name-input');
   var emailInput = document.getElementById('email-input');
   var data = {
-    user: {
+    article: {
       name: nameInput.value,
       email: emailInput.value,
     },
   };
-  httpPost('/api/users/add', data).then(() => {
+  httpPost('/api/articles/add', data).then(() => {
     displayArticles();
   });
 }
 
-function showEditView(userEle) {
-  var normalView = userEle.getElementsByClassName('normal-view')[0];
-  var editView = userEle.getElementsByClassName('edit-view')[0];
+function showEditView(articleEle) {
+  var normalView = articleEle.getElementsByClassName('normal-view')[0];
+  var editView = articleEle.getElementsByClassName('edit-view')[0];
   normalView.style.display = 'none';
   editView.style.display = 'block';
 }
 
-function cancelEdit(userEle) {
-  var normalView = userEle.getElementsByClassName('normal-view')[0];
-  var editView = userEle.getElementsByClassName('edit-view')[0];
+function cancelEdit(articleEle) {
+  var normalView = articleEle.getElementsByClassName('normal-view')[0];
+  var editView = articleEle.getElementsByClassName('edit-view')[0];
   normalView.style.display = 'block';
   editView.style.display = 'none';
 }
 
 function submitEdit(ele) {
-  var userEle = ele.parentNode.parentNode;
-  var nameInput = userEle.getElementsByClassName('name-edit-input')[0];
-  var emailInput = userEle.getElementsByClassName('email-edit-input')[0];
-  var id = ele.getAttribute('data-user-id');
+  var articleEle = ele.parentNode.parentNode;
+  var nameInput = articleEle.getElementsByClassName('name-edit-input')[0];
+  var emailInput = articleEle.getElementsByClassName('email-edit-input')[0];
+  var id = ele.getAttribute('data-article-id');
   var data = {
-    user: {
+    article: {
       name: nameInput.value,
       email: emailInput.value,
       id: Number(id),
     },
   };
-  httpPut('/api/users/update', data).then(() => {
+  httpPut('/api/articles/update', data).then(() => {
     displayArticles();
   });
 }
 
-function deleteUser(ele) {
-  var id = ele.getAttribute('data-user-id');
-  httpDelete('/api/users/delete/' + id).then(() => {
+function deleteArticle(ele) {
+  var id = ele.getAttribute('data-article-id');
+  httpDelete('/api/articles/delete/' + id).then(() => {
     displayArticles();
   });
 }
