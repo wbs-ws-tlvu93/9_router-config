@@ -19,9 +19,9 @@ function addOne(article: IArticle): Promise<void> {
 }
 
 /**
- * Update one user.
+ * Update one article.
  *
- * @param user
+ * @param article
  * @returns
  */
 async function updateOne(article: IArticle): Promise<void> {
@@ -30,6 +30,12 @@ async function updateOne(article: IArticle): Promise<void> {
   return articleRepo.update(article);
 }
 
+/**
+ * Delete an article by their id.
+ *
+ * @param id
+ * @returns
+ */
 async function deleteOne(id: number): Promise<void> {
   const persists = await articleRepo.persists(id);
   if (!persists) throw new ArticleNotFoundError();
