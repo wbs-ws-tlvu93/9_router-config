@@ -1,6 +1,11 @@
 body {
   padding: 100px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+}
+
+.users-container,
+.articles-container {
+  margin: 10em 10em;
 }
 
 body .users-column {
@@ -29,5 +34,34 @@ body .users-column .user-display-ele button {
 }
 
 body .users-column .user-display-ele .edit-view {
+  display: none;
+}
+
+body .articles-column {
+  display: inline-block;
+  margin-right: 2em;
+  vertical-align: top;
+}
+
+body .articles-column .column-header {
+  padding-bottom: 5px;
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+body .add-article-col input {
+  margin-bottom: 10px;
+}
+
+body .articles-column .article-display-ele {
+  padding-bottom: 10px;
+}
+
+body .articles-column .article-display-ele button {
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+body .articles-column .article-display-ele .edit-view {
   display: none;
 }

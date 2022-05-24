@@ -23,8 +23,8 @@ function getArticleDisplayEle(article) {
   return `<div class="article-display-ele">
 
         <div class="normal-view">
-            <div>Name: ${article.name}</div>
-            <div>Email: ${article.email}</div>
+            <div>Title: ${article.title}</div>
+            <div>Author: ${article.author}</div>
             <button class="edit-article-btn" data-article-id="${article.id}">
                 Edit
             </button>
@@ -35,10 +35,10 @@ function getArticleDisplayEle(article) {
         
         <div class="edit-view">
             <div>
-                Name: <input class="name-edit-input" value="${article.name}">
+                Name: <input class="title-edit-input" value="${article.author}">
             </div>
             <div>
-                Email: <input class="email-edit-input" value="${article.email}">
+                Email: <input class="author-edit-input" value="${article.title}">
             </div>
             <button class="submit-edit-btn" data-article-id="${article.id}">
                 Submit
@@ -75,12 +75,12 @@ document.addEventListener(
 );
 
 function addArticle() {
-  var nameInput = document.getElementById('name-input');
-  var emailInput = document.getElementById('email-input');
+  var titleInput = document.getElementById('title-input');
+  var authorInput = document.getElementById('author-input');
   var data = {
     article: {
-      name: nameInput.value,
-      email: emailInput.value,
+      title: titleInput.value,
+      author: authorInput.value,
     },
   };
   httpPost('/api/articles/add', data).then(() => {
@@ -104,13 +104,13 @@ function cancelEdit(articleEle) {
 
 function submitEdit(ele) {
   var articleEle = ele.parentNode.parentNode;
-  var nameInput = articleEle.getElementsByClassName('name-edit-input')[0];
-  var emailInput = articleEle.getElementsByClassName('email-edit-input')[0];
+  var titleInput = articleEle.getElementsByClassName('title-edit-input')[0];
+  var authorInput = articleEle.getElementsByClassName('author-edit-input')[0];
   var id = ele.getAttribute('data-article-id');
   var data = {
     article: {
-      name: nameInput.value,
-      email: emailInput.value,
+      title: titleInput.value,
+      author: authorInput.value,
       id: Number(id),
     },
   };
